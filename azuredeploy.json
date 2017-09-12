@@ -53,9 +53,10 @@
         "vmSize": "Standard_F4s",
         "storageAccountType": "Premium_LRS",
         "prefix": "[parameters('resourcePrefix')]",
+        "availabilitySetName": "[variables('prefix')]",
         "location": "[resourceGroup().location]",
-        "nicName": "[concat(variables('prefix'),'nic')]",
-        "vmName": "[concat(variables('prefix'),'vm')]",
+        "nicName": "[variables('prefix')]",
+        "vmName": "[variables('prefix')]",
         "subnetID": "[concat(parameters('vnetID'),'/subnets/',parameters('subnetName'))]",
         "vmCount": "[parameters('vmCount')]",
         "adminUsername": "[parameters('adminUsername')]",
@@ -64,6 +65,20 @@
         "index": 1
     },
     "resources": [
+        {
+            "apiVersion": "2016-04-30-preview",
+            "type": "Microsoft.Compute/availabilitySets",
+            "name": "[variables('availabilitySetName')]",
+            "location": "[variables('location')]",
+            "properties": {
+                "platformUpdateDomainCount": 5,
+                "platformFaultDomainCount": 2,
+                "virtualMachines": []
+            },
+            "sku": {
+                "name": "Aligned"
+            }
+        },
         {
             "apiVersion": "2015-06-15",
             "type": "Microsoft.Network/networkInterfaces",
@@ -97,9 +112,13 @@
             "name": "[concat(variables('vmName'),copyIndex(variables('index')))]",
             "location": "[variables('location')]",
             "dependsOn": [
+                "[resourceId('Microsoft.Compute/availabilitySets/', variables('availabilitySetName'))]",
                 "[concat('Microsoft.Network/networkInterfaces/', variables('nicName'), copyIndex(variables('index')))]"
             ],
             "properties": {
+                "availabilitySet": {
+                    "id": "[variables('availabilitySetName')]"
+                },
                 "hardwareProfile": {
                     "vmSize": "[variables('vmSize')]"
                 },
