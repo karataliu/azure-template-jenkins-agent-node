@@ -7,7 +7,7 @@
             "metadata": {
                 "description": "Prefix string for VMs."
             },
-            "defaultValue": "jagents"
+            "defaultValue": "jagent"
         },
         "adminUsername": {
             "type": "string",
@@ -20,6 +20,18 @@
             "type": "securestring",
             "metadata": {
                 "description": "Ssh public key for cluster VMs"
+            }
+        },
+        "vmSize": {
+            "type": "string",
+            "defaultValue": "Standard_F4s",
+            "allowedValues": [
+                "Standard_F4s",
+                "Standard_F8s",
+                "Standard_F16s"
+            ],
+            "metadata": {
+                "description": "Size of virtual machine to provision for the cluster"
             }
         },
         "vnetID": {
@@ -57,7 +69,7 @@
             "sku": "16.04-LTS",
             "version": "latest"
         },
-        "vmSize": "Standard_F4s",
+        "vmSize": "[parameters('vmSize')]]",
         "storageAccountType": "Premium_LRS",
         "prefix": "[parameters('resourcePrefix')]",
         "vmCount": "[parameters('vmCount')]",
