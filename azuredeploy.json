@@ -69,7 +69,7 @@
             "sku": "16.04-LTS",
             "version": "latest"
         },
-        "vmSize": "[parameters('vmSize')]]",
+        "vmSize": "[parameters('vmSize')]",
         "storageAccountType": "Premium_LRS",
         "prefix": "[parameters('resourcePrefix')]",
         "vmCount": "[parameters('vmCount')]",
