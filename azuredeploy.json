@@ -58,7 +58,9 @@
         "vmName": "[concat(variables('prefix'),'vm')]",
         "subnetID": "[concat(parameters('vnetID'),'/subnets/',parameters('subnetName'))]",
         "vmCount": "[parameters('vmCount')]",
+        "adminUsername": "[parameters('adminUsername')]",
         "sshPublicKey": "[parameters('sshPublicKey')]",
+        "sshKeyPath": "[concat('/home/',parameters('adminUsername'),'/.ssh/authorized_keys')]",
         "index": 1
     },
     "resources": [
@@ -103,13 +105,14 @@
                 },
                 "osProfile": {
                     "computerName": "[concat(variables('vmName'),copyIndex(variables('index')))]",
-                    "adminUsername": "[parameters('adminUsername')]",
+                    "adminUsername": "[variables('adminUsername')]",
                     "linuxConfiguration": {
                         "disablePasswordAuthentication": true,
                         "ssh": {
                             "publicKeys": [
                                 {
-                                    "keyData": "[parameters('sshPublicKey')]"
+                                    "keyData": "[variables('sshPublicKey')]",
+                                    "path": "[variables('sshKeyPath')]"
                                 }
                             ]
                         }
