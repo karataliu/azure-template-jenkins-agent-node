@@ -63,7 +63,7 @@
         "adminUsername": "[parameters('adminUsername')]",
         "sshPublicKey": "[parameters('sshPublicKey')]",
         "sshKeyPath": "[concat('/home/',parameters('adminUsername'),'/.ssh/authorized_keys')]",
-        "index": 1
+        "index": 10
     },
     "resources": [
         {
@@ -114,7 +114,7 @@
             "location": "[variables('location')]",
             "dependsOn": [
                 "[variables('availabilitySetID')]",
-                "[concat('Microsoft.Network/networkInterfaces/', variables('nicName'), copyIndex(variables('index')))]"
+                "[concat(variables('nicName'),copyIndex(variables('index')))]"
             ],
             "properties": {
                 "availabilitySet": {
@@ -163,6 +163,9 @@
                     "type": "extensions",
                     "name": "setupJre",
                     "location": "[variables('location')]",
+                    "dependsOn": [
+                        "[concat(variables('vmName'),copyIndex(variables('index')))]"
+                    ],
                     "properties": {
                         "publisher": "Microsoft.Azure.Extensions",
                         "type": "CustomScript",
