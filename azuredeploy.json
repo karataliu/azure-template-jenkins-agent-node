@@ -50,12 +50,12 @@
             "sku": "16.04-LTS",
             "version": "latest"
         },
+        "vmSize": "Standard_F4s",
+        "storageAccountType": "Premium_LRS",
         "prefix": "[parameters('resourcePrefix')]",
         "location": "[resourceGroup().location]",
         "nicName": "[concat(variables('prefix'),'nic')]",
         "vmName": "[concat(variables('prefix'),'vm')]",
-        "vmSize": "Standard_D2",
-        "storageAccountType": "Standard_LRS",
         "subnetID": "[concat(parameters('vnetID'),'/subnets/',parameters('subnetName'))]",
         "vmCount": "[parameters('vmCount')]",
         "sshPublicKey": "[parameters('sshPublicKey')]",
@@ -121,7 +121,7 @@
                         "caching": "ReadWrite",
                         "createOption": "FromImage",
                         "managedDisk": {
-                            "storageAccountType": "Premium_LRS"
+                            "storageAccountType": "[variables('storageAccountType')]"
                         }
                     },
                     "imageReference": "[variables('imageReference')]"
