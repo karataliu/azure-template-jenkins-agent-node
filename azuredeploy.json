@@ -190,9 +190,13 @@
                         "type": "CustomScript",
                         "typeHandlerVersion": "2.0",
                         "autoUpgradeMinorVersion": true,
-                        "settings": {},
+                        "settings": {
+                            "fileUris": [
+                                "https://raw.githubusercontent.com/karataliu/azure-template-jenkins-agent-node/master/provision.sh"
+                            ]
+                        },
                         "protectedSettings": {
-                            "commandToExecute": "apt update && DEBIAN_FRONTEND=noninteractive apt -y --no-install-recommends install openjdk-9-jre build-essential"
+                            "commandToExecute": "./provision.sh"
                         }
                     }
                 }
