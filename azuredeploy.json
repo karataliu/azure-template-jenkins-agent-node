@@ -39,8 +39,14 @@
             "metadata": {
                 "description": "VM instance count in the cluster."
             },
-            "defaultValue": 2,
-            "maxValue": 20
+            "defaultValue": 2
+        },
+        "startIndex": {
+            "type": "int",
+            "metadata": {
+                "description": "VM start index."
+            },
+            "defaultValue": 11
         }
     },
     "variables": {
@@ -53,17 +59,17 @@
         "vmSize": "Standard_F4s",
         "storageAccountType": "Premium_LRS",
         "prefix": "[parameters('resourcePrefix')]",
+        "vmCount": "[parameters('vmCount')]",
+        "index": "[parameters('startIndex')]",
         "availabilitySetName": "[variables('prefix')]",
         "availabilitySetID": "[resourceId('Microsoft.Compute/availabilitySets/', variables('availabilitySetName'))]",
         "location": "[resourceGroup().location]",
         "nicName": "[variables('prefix')]",
         "vmName": "[variables('prefix')]",
         "subnetID": "[concat(parameters('vnetID'),'/subnets/',parameters('subnetName'))]",
-        "vmCount": "[parameters('vmCount')]",
         "adminUsername": "[parameters('adminUsername')]",
         "sshPublicKey": "[parameters('sshPublicKey')]",
-        "sshKeyPath": "[concat('/home/',parameters('adminUsername'),'/.ssh/authorized_keys')]",
-        "index": 10
+        "sshKeyPath": "[concat('/home/',parameters('adminUsername'),'/.ssh/authorized_keys')]"
     },
     "resources": [
         {
@@ -114,7 +120,7 @@
             "location": "[variables('location')]",
             "dependsOn": [
                 "[variables('availabilitySetID')]",
-                "[concat(variables('nicName'),copyIndex(variables('index')))]"
+                "[concat('Microsoft.Network/networkInterfaces/', variables('nicName'), copyIndex(variables('index')))]"
             ],
             "properties": {
                 "availabilitySet": {
@@ -179,15 +185,5 @@
                 }
             ]
         }
-    ],
-    "outputs": {
-        "prefix": {
-            "type": "string",
-            "value": "[variables('prefix')]"
-        },
-        "resourceGroup": {
-            "type": "string",
-            "value": "[resourceGroup().name]"
-        }
-    }
+    ]
 }
