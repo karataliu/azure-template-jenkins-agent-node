@@ -21,11 +21,18 @@
                 "description": "Ssh public key for cluster VMs"
             }
         },
-        "subNetID": {
+        "vnetID": {
             "type": "string",
             "metadata": {
                 "description": "Existing subnet ID"
             }
+        },
+        "subnetName": {
+            "type": "string",
+            "metadata": {
+                "description": "Existing subnet ID"
+            },
+            "defaultValue": "k8s-subnet"
         },
         "vmCount": {
             "type": "int",
@@ -49,7 +56,7 @@
         "vmName": "[concat(variables('prefix'),'vm')]",
         "vmSize": "Standard_D2",
         "storageAccountType": "Standard_LRS",
-        "subNetID": "[parameters('subNetID')]",
+        "subnetID": "[concat(variables('vnetID'),'/subnets/',variables('subnetName'))]",
         "vmCount": "[parameters('vmCount')]",
         "sshPublicKey": "[parameters('sshPublicKey')]",
         "index": 1
