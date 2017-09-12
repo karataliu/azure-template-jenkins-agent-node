@@ -6,7 +6,8 @@
             "type": "string",
             "metadata": {
                 "description": "Prefix string for VMs."
-            }
+            },
+            "defaultValue": "jagents"
         },
         "adminUsername": {
             "type": "string",
@@ -179,7 +180,7 @@
                         "autoUpgradeMinorVersion": true,
                         "settings": {},
                         "protectedSettings": {
-                            "commandToExecute": "apt update && DEBIAN_FRONTEND=noninteractive apt -y --no-install-recommends install openjdk-9-jre make"
+                            "commandToExecute": "apt update && DEBIAN_FRONTEND=noninteractive apt -y --no-install-recommends install openjdk-9-jre build-essential"
                         }
                     }
                 }
