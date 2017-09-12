@@ -56,7 +56,7 @@
         "vmName": "[concat(variables('prefix'),'vm')]",
         "vmSize": "Standard_D2",
         "storageAccountType": "Standard_LRS",
-        "subnetID": "[concat(variables('vnetID'),'/subnets/',variables('subnetName'))]",
+        "subnetID": "[concat(parameters('vnetID'),'/subnets/',variables('subnetName'))]",
         "vmCount": "[parameters('vmCount')]",
         "sshPublicKey": "[parameters('sshPublicKey')]",
         "index": 1
