@@ -54,6 +54,7 @@
         "storageAccountType": "Premium_LRS",
         "prefix": "[parameters('resourcePrefix')]",
         "availabilitySetName": "[variables('prefix')]",
+        "availabilitySetID": "[resourceId('Microsoft.Compute/availabilitySets/', variables('availabilitySetName'))]",
         "location": "[resourceGroup().location]",
         "nicName": "[variables('prefix')]",
         "vmName": "[variables('prefix')]",
@@ -112,12 +113,12 @@
             "name": "[concat(variables('vmName'),copyIndex(variables('index')))]",
             "location": "[variables('location')]",
             "dependsOn": [
-                "[resourceId('Microsoft.Compute/availabilitySets/', variables('availabilitySetName'))]",
+                "[variables('availabilitySetID')]",
                 "[concat('Microsoft.Network/networkInterfaces/', variables('nicName'), copyIndex(variables('index')))]"
             ],
             "properties": {
                 "availabilitySet": {
-                    "id": "[variables('availabilitySetName')]"
+                    "id": "[variables('availabilitySetID')]"
                 },
                 "hardwareProfile": {
                     "vmSize": "[variables('vmSize')]"
