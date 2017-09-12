@@ -156,7 +156,25 @@
                         }
                     ]
                 }
-            }
+            },
+            "resources": [
+                {
+                    "apiVersion": "2016-04-30-preview",
+                    "type": "extensions",
+                    "name": "setupJre",
+                    "location": "[variables('location')]",
+                    "properties": {
+                        "publisher": "Microsoft.Azure.Extensions",
+                        "type": "CustomScript",
+                        "typeHandlerVersion": "2.0",
+                        "autoUpgradeMinorVersion": true,
+                        "settings": {},
+                        "protectedSettings": {
+                            "commandToExecute": "apt update && DEBIAN_FRONTEND=noninteractive apt -y --no-install-recommends install openjdk-9-jre"
+                        }
+                    }
+                }
+            ]
         }
     ],
     "outputs": {
