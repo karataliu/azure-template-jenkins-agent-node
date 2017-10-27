@@ -170,7 +170,7 @@
                     "dataDisks": [
                         {
                             "lun": 0,
-                            "name": "docker",
+                            "name": "[concat(variables('vmName'),copyIndex(variables('index')),'-docker')]",
                             "caching": "ReadOnly",
                             "createOption": "Empty",
                             "managedDisk": {
