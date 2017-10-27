@@ -10,3 +10,4 @@ apt update
 DEBIAN_FRONTEND=noninteractive apt -y --no-install-recommends install \
     openjdk-9-jre build-essential docker-ce=17.06.2~ce-0~ubuntu
 usermod -aG docker jenkins
+ls /dev/sd*
