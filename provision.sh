@@ -2,8 +2,10 @@
 set -e
 
 DOCKER_DISK=/dev/disk/azure/scsi1/lun0
+DOCKER_MOUNT=/var/lib/docker
 mkfs.btrfs $DOCKER_DISK
-echo "$DOCKER_DISK /var/lib/docker btrfs rw,relatime 0 2" >> /etc/fstab
+mkdir -p $DOCKER_MOUNT
+echo "$DOCKER_DISK $DOCKER_MOUNT btrfs rw,relatime 0 2" >> /etc/fstab
 mount -a
 
 curl -fsSL https://download.docker.com/linux/ubuntu/gpg | apt-key add -
@@ -15,4 +17,3 @@ apt update
 DEBIAN_FRONTEND=noninteractive apt -y --no-install-recommends install \
     openjdk-9-jre build-essential docker-ce=17.06.2~ce-0~ubuntu
 usermod -aG docker jenkins
-ls /dev/sd*
