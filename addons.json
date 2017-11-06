@@ -1,0 +1,53 @@
+{
+    "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+        "registryName": {
+            "type": "string",
+            "metadata": {
+                "description": "The name of the container registry."
+            }
+        },
+        "trafficManagerName": {
+            "type": "string",
+            "metadata": {
+                "description": "The name of the traffic manager."
+            }
+        }
+    },
+    "variables": {
+        "location": "[resourceGroup().location]"
+    },
+    "resources": [
+        {
+            "apiVersion": "2017-10-01",
+            "type": "Microsoft.ContainerRegistry/registries",
+            "sku": {
+                "name": "Basic"
+            },
+            "name": "[parameters('registryName')]",
+            "location": "[variables('location')]",
+            "properties": {
+                "adminUserEnabled": "false"
+            }
+        },
+        {
+            "apiVersion": "2017-05-01",
+            "type": "Microsoft.Network/trafficmanagerprofiles",
+            "name": "[parameters('trafficManagerName')]",
+            "location": "global",
+            "properties": {
+                "trafficRoutingMethod": "Priority",
+                "dnsConfig": {
+                    "relativeName": "[parameters('trafficManagerName')]",
+                    "ttl": "300"
+                },
+                "monitorConfig": {
+                    "protocol": "http",
+                    "port": "80",
+                    "path": "/"
+                }
+            }
+        }
+    ]
+}
